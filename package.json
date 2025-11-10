@@ -1,0 +1,35 @@
+{
+  "name": "buwp-local",
+  "version": "0.1.0",
+  "description": "Local WordPress development environment for Boston University projects",
+  "main": "lib/index.js",
+  "bin": {
+    "buwp-local": "./bin/buwp-local.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node bin/buwp-local.js",
+    "lint": "eslint ."
+  },
+  "keywords": [
+    "wordpress",
+    "docker",
+    "development",
+    "bu",
+    "local"
+  ],
+  "author": "Boston University",
+  "license": "ISC",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0",
+    "chalk": "^4.1.2",
+    "commander": "^11.0.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.50.0"
+  }
+}
