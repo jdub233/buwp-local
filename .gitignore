@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Generated files
+.buwp-local/
+
+# Environment files (should be local only)
+.env.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Test
+coverage/
+.nyc_output/
