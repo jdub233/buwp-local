@@ -58,6 +58,9 @@ program
   .command('config')
   .description('Configuration management')
   .option('--init', 'Initialize configuration file')
+  .option('--plugin', 'Initialize with plugin mapping (use with --init)')
+  .option('--mu-plugin', 'Initialize with mu-plugin mapping (use with --init)')
+  .option('--theme', 'Initialize with theme mapping (use with --init)')
   .option('--validate', 'Validate configuration file')
   .option('--show', 'Show resolved configuration')
   .action(configCommand);
