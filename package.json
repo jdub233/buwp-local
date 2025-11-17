@@ -1,6 +1,6 @@
 {
-  "name": "buwp-local",
-  "version": "0.1.0",
+  "name": "@bostonuniversity/buwp-local",
+  "version": "0.2.0",
   "description": "Local WordPress development environment for Boston University projects",
   "main": "lib/index.js",
   "bin": {
