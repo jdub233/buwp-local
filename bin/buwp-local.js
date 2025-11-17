@@ -14,6 +14,7 @@ const startCommand = require('../lib/commands/start');
 const stopCommand = require('../lib/commands/stop');
 const destroyCommand = require('../lib/commands/destroy');
 const logsCommand = require('../lib/commands/logs');
+const wpCommand = require('../lib/commands/wp');
 const configCommand = require('../lib/commands/config');
 
 const program = new Command();
@@ -70,10 +71,7 @@ program
   .command('wp <args...>')
   .description('Run WP-CLI commands in the WordPress container')
   .allowUnknownOption()
-  .action((args) => {
-    console.log(chalk.yellow('WP-CLI proxy not yet implemented'));
-    console.log('Would run:', args.join(' '));
-  });
+  .action(wpCommand);
 
 // Error handling
 program.exitOverride();
