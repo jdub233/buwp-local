@@ -15,6 +15,7 @@ const stopCommand = require('../lib/commands/stop');
 const destroyCommand = require('../lib/commands/destroy');
 const logsCommand = require('../lib/commands/logs');
 const wpCommand = require('../lib/commands/wp');
+const shellCommand = require('../lib/commands/shell');
 const configCommand = require('../lib/commands/config');
 
 const program = new Command();
@@ -72,6 +73,12 @@ program
   .description('Run WP-CLI commands in the WordPress container')
   .allowUnknownOption()
   .action(wpCommand);
+
+// Shell command
+program
+  .command('shell')
+  .description('Open an interactive bash shell in the WordPress container')
+  .action(shellCommand);
 
 // Error handling
 program.exitOverride();
