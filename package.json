@@ -1,14 +1,15 @@
 {
   "name": "@bostonuniversity/buwp-local",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Local WordPress development environment for Boston University projects",
+  "type": "module",
   "main": "lib/index.js",
   "bin": {
     "buwp-local": "./bin/buwp-local.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node bin/buwp-local.js",
+    "buwp-local": "node bin/buwp-local.js",
     "lint": "eslint ."
   },
   "keywords": [
@@ -21,7 +22,7 @@
   "author": "Boston University",
   "license": "ISC",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "js-yaml": "^4.1.0",
