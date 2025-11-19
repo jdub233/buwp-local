@@ -5,18 +5,29 @@
  * Main entry point for the BU WordPress Local development environment tool
  */
 
-const { Command } = require('commander');
-const chalk = require('chalk');
-const packageJson = require('../package.json');
+import { Command } from 'commander';
+import chalk from 'chalk';
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+// Get __dirname equivalent in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Load package.json
+const packageJson = JSON.parse(
+  readFileSync(join(__dirname, '../package.json'), 'utf8')
+);
 
 // Import commands
-const startCommand = require('../lib/commands/start');
-const stopCommand = require('../lib/commands/stop');
-const destroyCommand = require('../lib/commands/destroy');
-const logsCommand = require('../lib/commands/logs');
-const wpCommand = require('../lib/commands/wp');
-const shellCommand = require('../lib/commands/shell');
-const configCommand = require('../lib/commands/config');
+import startCommand from '../lib/commands/start.js';
+import stopCommand from '../lib/commands/stop.js';
+import destroyCommand from '../lib/commands/destroy.js';
+import logsCommand from '../lib/commands/logs.js';
+import wpCommand from '../lib/commands/wp.js';
+import shellCommand from '../lib/commands/shell.js';
+import configCommand from '../lib/commands/config.js';
 
 const program = new Command();
 
