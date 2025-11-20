@@ -109,7 +109,6 @@ Options:
 
 The `init` command provides an interactive setup experience with:
 - **Smart defaults** - Detects project type from files
-- **Port conflict detection** - Automatically suggests available ports
 - **Real-time validation** - Validates inputs as you type
 - **Guided workflow** - Clear prompts for all configuration options
 
