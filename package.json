@@ -1,6 +1,6 @@
 {
   "name": "@bostonuniversity/buwp-local",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Local WordPress development environment for Boston University projects",
   "type": "module",
   "main": "lib/index.js",
@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "buwp-local": "node bin/buwp-local.js",
+    "buwp-local": "node bin/buwp-local.js start",
     "lint": "eslint ."
   },
   "keywords": [

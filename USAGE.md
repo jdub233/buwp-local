@@ -51,7 +51,13 @@ Edit `.buwp-local.json` to map your local repository into the container:
 
 ### 4. Create `.env.local` for secrets
 
-Create `.env.local` (never commit this file!):
+Create `.env.local` (never commit this file!) or copy from the example:
+
+```bash
+cp .env.local.example .env.local
+```
+
+Then edit `.env.local` with your actual credentials:
 
 ```bash
 # Database
@@ -70,12 +76,15 @@ S3_UPLOADS_BUCKET=your-bucket
 S3_UPLOADS_REGION=us-east-1
 S3_UPLOADS_ACCESS_KEY_ID=your-access-key
 S3_UPLOADS_SECRET_ACCESS_KEY=your-secret-key
+S3_ACCESS_RULES_TABLE=your-access-rules-table
 
 # OLAP
 OLAP=your-olap-name
 OLAP_ACCT_NBR=your-account-number
 OLAP_REGION=us-east-1
 ```
+
+**Important:** Credentials are read directly from `.env.local` by Docker Compose. They are never written to the generated `docker-compose.yml` file, making it safe to review or share the generated compose file without exposing secrets.
 
 ### 5. Add hostname to /etc/hosts
 
@@ -226,10 +235,27 @@ Map your local code into the container:
 ## Security Best Practices
 
 1. **Never commit `.env.local`** - This file contains secrets
-2. **Never commit `.buwp-local/`** - This contains generated files
-3. **Do commit `.buwp-local.json`** - This is your configuration template
-4. **Use environment variables for all secrets**
-5. **Consider using macOS Keychain** for even better security (see docs)
+2. **Never commit `.buwp-local/`** - This directory contains generated files
+3. **Do commit `.buwp-local.json`** - This is your configuration template (no secrets)
+4. **Use environment variables for all secrets** - Credentials stay in `.env.local` and are never written to generated files
+5. **Review generated compose files** - The generated `docker-compose.yml` only contains variable references like `${WORDPRESS_DB_PASSWORD}`, not actual credentials
+6. **Copy `.env.local.example`** - Use the provided template to create your `.env.local` file
+7. **Consider using macOS Keychain** for even better security (future feature)
+
+### How Credentials Work
+
+buwp-local uses Docker Compose's native environment variable interpolation:
+
+1. **You provide** credentials in `.env.local`
+2. **buwp-local generates** `docker-compose.yml` with variable references like `${VAR_NAME}`
+3. **Docker Compose reads** `.env.local` at runtime and substitutes the values
+4. **Your secrets never** get written to any generated files
+
+This means:
+- ✅ Generated compose files are safe to review or share
+- ✅ No credentials in version control (even accidentally)
+- ✅ Industry-standard Docker Compose pattern
+- ✅ Simple and secure
 
 ## File Structure
 
