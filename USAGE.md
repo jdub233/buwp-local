@@ -18,7 +18,7 @@ npx buwp-local init
 The interactive setup will guide you through:
 - Project name and type (plugin, theme, mu-plugin)
 - Hostname configuration
-- Port selection (with automatic conflict detection)
+- Port selection
 - Service options (Redis, S3, Shibboleth)
 - Debug settings
 
