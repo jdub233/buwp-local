@@ -28,6 +28,7 @@ import logsCommand from '../lib/commands/logs.js';
 import wpCommand from '../lib/commands/wp.js';
 import shellCommand from '../lib/commands/shell.js';
 import configCommand from '../lib/commands/config.js';
+import initCommand from '../lib/commands/init.js';
 
 const program = new Command();
 
@@ -77,6 +78,17 @@ program
   .option('--validate', 'Validate configuration file')
   .option('--show', 'Show resolved configuration')
   .action(configCommand);
+
+// Init command (interactive configuration)
+program
+  .command('init')
+  .description('Initialize configuration interactively')
+  .option('--no-interactive', 'Use non-interactive mode with defaults')
+  .option('--plugin', 'Non-interactive: initialize as plugin')
+  .option('--mu-plugin', 'Non-interactive: initialize as mu-plugin')
+  .option('--theme', 'Non-interactive: initialize as theme')
+  .option('-f, --force', 'Overwrite existing configuration')
+  .action(initCommand);
 
 // WP-CLI proxy command
 program
