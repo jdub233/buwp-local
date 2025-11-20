@@ -5,13 +5,28 @@
 ### 1. Install in your project
 
 ```bash
-npm install --save-dev buwp-local
+npm install --save-dev @bostonuniversity/buwp-local
 ```
 
 ### 2. Initialize configuration
 
+**Interactive mode (recommended):**
 ```bash
-npx buwp-local config --init
+npx buwp-local init
+```
+
+The interactive setup will guide you through:
+- Project name and type (plugin, theme, mu-plugin)
+- Hostname configuration
+- Port selection (with automatic conflict detection)
+- Service options (Redis, S3, Shibboleth)
+- Debug settings
+
+**Non-interactive mode:**
+```bash
+npx buwp-local config --init --plugin      # For plugins
+npx buwp-local config --init --mu-plugin   # For mu-plugins
+npx buwp-local config --init --theme       # For themes
 ```
 
 This creates `.buwp-local.json` in your project directory.
@@ -79,6 +94,24 @@ npx buwp-local start
 Open http://username.local or https://username.local in your browser.
 
 ## Commands
+
+### Initialize configuration
+```bash
+npx buwp-local init
+
+Options:
+  --no-interactive  Use non-interactive mode with defaults
+  --plugin          Non-interactive: initialize as plugin
+  --mu-plugin       Non-interactive: initialize as mu-plugin
+  --theme           Non-interactive: initialize as theme
+  -f, --force       Overwrite existing configuration
+```
+
+The `init` command provides an interactive setup experience with:
+- **Smart defaults** - Detects project type from files
+- **Port conflict detection** - Automatically suggests available ports
+- **Real-time validation** - Validates inputs as you type
+- **Guided workflow** - Clear prompts for all configuration options
 
 ### Start environment
 ```bash
