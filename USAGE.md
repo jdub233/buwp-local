@@ -247,7 +247,7 @@ Map your local code into the container:
 buwp-local uses Docker Compose's native environment variable interpolation:
 
 1. **You provide** credentials in `.env.local`
-2. **Docker Compose generates** `docker-compose.yml` with variable references like `${VAR_NAME}`
+2. **buwp-local generates** `docker-compose.yml` with variable references like `${VAR_NAME}`
 3. **Docker Compose reads** `.env.local` at runtime and substitutes the values
 4. **Your secrets never** get written to any generated files
 
