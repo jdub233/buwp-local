@@ -28,9 +28,11 @@
     "js-yaml": "^4.1.0",
     "chalk": "^4.1.2",
     "commander": "^11.0.0",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "prompts": "^2.4.2"
   },
   "devDependencies": {
+    "@types/prompts": "^2.4.9",
     "eslint": "^8.50.0"
   }
 }
