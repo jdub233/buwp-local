@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "buwp-local": "node bin/buwp-local.js start",
+    "buwp-local": "node bin/buwp-local.js",
     "lint": "eslint ."
   },
   "keywords": [
