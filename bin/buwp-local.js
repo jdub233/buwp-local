@@ -29,6 +29,7 @@ import wpCommand from '../lib/commands/wp.js';
 import shellCommand from '../lib/commands/shell.js';
 import configCommand from '../lib/commands/config.js';
 import initCommand from '../lib/commands/init.js';
+import keychainCommand from '../lib/commands/keychain.js';
 
 const program = new Command();
 
@@ -102,6 +103,17 @@ program
   .command('shell')
   .description('Open an interactive bash shell in the WordPress container')
   .action(shellCommand);
+
+// Keychain command
+program
+  .command('keychain <subcommand> [args...]')
+  .description('Manage credentials in macOS keychain')
+  .option('-f, --force', 'Skip confirmation prompts')
+  .option('--file <path>', 'Read credential from file (for multiline content)')
+  .option('--stdin', 'Read credential from stdin')
+  .action((subcommand, args, options) => {
+    keychainCommand(subcommand, args, options);
+  });
 
 // Error handling
 program.exitOverride();
