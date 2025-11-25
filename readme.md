@@ -43,6 +43,10 @@ This repository contains resources and instructions for setting up a local WordP
 
     This will guide you through setting up your project name, hostname, port mappings, volume mappings, and service options.
 
+    If you choose plugin, theme, or mu-plugin project type, the setup will automatically add volume mappings for your current directory into the appropriate WordPress location in the container.
+
+    If you choose sandbox project type, you will need to manually add volume mappings to your `.buwp-local.json` file later, or you can run without any volume mappings.
+
 6. **Setup local hostname**: Add your project's local hostname (e.g. `myproject.local`) to your `/etc/hosts` file
 
 7. **Start your local environment**:
