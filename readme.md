@@ -84,3 +84,19 @@ Your local WordPress site should now be accessible at the hostname you configure
     ```
 
     This will download the latest snapshot from the specified source and import it into your local WordPress environment.
+
+## Documentation
+
+- 📘 [Getting Started Guide](docs/GETTING_STARTED.md)
+- 📖 [Command Reference](docs/COMMANDS.md)
+- 🔐 [Credential Management](docs/CREDENTIALS.md)
+- 🏗️ [Architecture](docs/ARCHITECTURE.md) (for contributors)
+
+## Features
+
+- ✅ One-time credential setup with macOS Keychain
+- ✅ Isolated environments for multiple projects
+- ✅ Pre-configured BU infrastructure (Shibboleth, S3, Redis)
+- ✅ Smart initialization for plugins, themes, and mu-plugins
+- ✅ Volume mapping for live code sync
+- ✅ Xdebug support for step debugging
