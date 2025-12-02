@@ -2,6 +2,7 @@
 
 This repository contains resources and instructions for setting up a local WordPress development environment for Boston University projects. It uses the BU WordPress container image and provides the additional resources needed to run it locally with Docker.
 
+The package can be installed in a specific repo for development of that one package, or standalone for more general use, mapping local code into the container as needed.
 
 ## Quickstart for plugin or theme development
 
