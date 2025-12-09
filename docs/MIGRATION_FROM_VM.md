@@ -14,9 +14,9 @@ This guide explains the architectural advantages of buwp-local compared to tradi
 In traditional VM-based development environments:
 
 1. **Monthly rebuild cycles** - VM sandboxes must be periodically replaced with fresh builds to keep WordPress core, plugins, and infrastructure up to date
-3. **Manual preservation** - Developers must manually back up their work before each rebuild and restore it afterward
-4. **Coordination overhead** - Team-wide rebuild schedules require coordination and can interrupt active development
-5. **All-or-nothing updates** - The entire team must update together, regardless of individual project needs
+2. **Manual preservation** - Developers must manually back up their work before each rebuild and restore it afterward
+3. **Coordination overhead** - Team-wide rebuild schedules require coordination and can interrupt active development
+4. **All-or-nothing updates** - The entire team must update together, regardless of individual project needs
 
 ## How buwp-local Solves This
 
