@@ -7,10 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.2]
+
+### Fixed
+- **Project paths with spaces** - Fixed shell command construction to properly quote Docker Compose file paths when project directory contains spaces
+- Prevents shell word-splitting errors like `unknown docker command: "compose folder/..."`
+- All Docker Compose commands (`start`, `stop`, `destroy`, `logs`, `wp`) now correctly handle paths with spaces and special characters
+
+### Changed
+- Volume mapping generation now uses cleaner functional programming pattern with `map()` and spread operator
+- Improved code readability in `generateWordPressService()` by isolating volume mapping transformation
+
+## [0.6.1]
+
+### Added
+- Container registry accessibility check on `start` command
+- Automatic Docker image pull with helpful authentication guidance
+- GitHub Packages authentication assistance when image access is denied
+
+### Fixed
+- Clear error messages for registry authentication failures with actionable next steps
+
+## [0.6.0]
+
 ### Added
 - Credential validation on `start` command with interactive setup prompt
 - Documentation consolidation in `docs/` directory
 - Comprehensive guides: GETTING_STARTED.md, COMMANDS.md, CREDENTIALS.md, MULTI_PROJECT.md, ARCHITECTURE.md
+- Robust `/etc/hosts` detection with smart one-time warnings
+- VM Sandbox migration guide highlighting architectural advantages
 
 ## [0.5.3]
 
