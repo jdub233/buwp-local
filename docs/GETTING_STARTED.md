@@ -183,8 +183,11 @@ npx buwp-local destroy
 ## Next Steps
 
 - **[Commands Reference](COMMANDS.md)** - Full list of available commands
+- **[Volume Mapping Patterns](VOLUME_MAPPINGS.md)** - Advanced multi-repo workflows
+- **[Xdebug Setup](XDEBUG.md)** - Configure step debugging for your pattern
 - **[Credential Management](CREDENTIALS.md)** - Detailed guide to managing secrets
 - **[Multi-Project Setup](MULTI_PROJECT.md)** - Run multiple projects simultaneously
+- **[Migration from VM Sandboxes](MIGRATION_FROM_VM.md)** - Transitioning from traditional VMs
 - **[Architecture](ARCHITECTURE.md)** - Understand how buwp-local works
 
 ## Troubleshooting
