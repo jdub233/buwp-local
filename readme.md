@@ -4,6 +4,15 @@ This repository contains resources and instructions for setting up a local WordP
 
 The package can be installed in a specific repo for development of that one package, or standalone for more general use, mapping local code into the container as needed.
 
+> **Why buwp-local over VM sandboxes?**
+> 
+> Traditional VM sandboxes require **monthly rebuilds that wipe your development code**. With buwp-local's Docker architecture, your code lives on your local filesystem while only WordPress core updates. This means:
+> - ✅ **Keep your work** - No more monthly rebuild cycles that erase local changes
+> - ✅ **Update independently** - Pull WordPress updates on your schedule, not a global calendar
+> - ✅ **Instant rollback** - Switch between WordPress versions without losing work
+> 
+> Learn more: [Migration from VM Sandboxes](docs/MIGRATION_FROM_VM.md)
+
 ## Quickstart for plugin or theme development
 
 1. **Install Docker**: Make sure you have [Docker Desktop](https://www.docker.com/products/docker-desktop) installed and running on your machine.
@@ -90,7 +99,10 @@ Your local WordPress site should now be accessible at the hostname you configure
 
 - 📘 [Getting Started Guide](docs/GETTING_STARTED.md)
 - 📖 [Command Reference](docs/COMMANDS.md)
+- 🗺️ [Volume Mapping Patterns](docs/VOLUME_MAPPINGS.md) - Flexible development workflows
+- 🐛 [Xdebug Setup](docs/XDEBUG.md) - Step debugging configuration
 - 🔐 [Credential Management](docs/CREDENTIALS.md)
+- 🔄 [Migration from VM Sandboxes](docs/MIGRATION_FROM_VM.md)
 - 🏗️ [Architecture](docs/ARCHITECTURE.md) (for contributors)
 
 ## Features
