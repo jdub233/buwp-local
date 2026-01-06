@@ -115,6 +115,46 @@ npx buwp-local destroy --force
 
 ---
 
+### `update`
+
+Update Docker images and recreate containers without losing data.
+
+```bash
+npx buwp-local update [options]
+```
+
+**Options:**
+- `--all` - Update all service images (default: WordPress image only)
+
+**Examples:**
+```bash
+# Update WordPress image only (recommended)
+npx buwp-local update
+
+# Update all service images (Redis, S3 proxy, etc.)
+npx buwp-local update --all
+```
+
+**What it does:**
+- Checks if environment exists and Docker is running
+- Pulls latest Docker images from registry
+- Recreates containers with new images using `--force-recreate`
+- Loads credentials from Keychain and/or `.env.local`
+- **Preserves volumes** - Database and WordPress files untouched
+- Shows success message confirming what was preserved
+
+**Use cases:**
+- Pull latest WordPress updates without losing development work
+- Update only WordPress image (typical use case) or all services
+- Safe alternative to `destroy` when you only want to refresh images
+
+**Key difference from `stop/start`:**
+- `stop` → `start`: Reuses existing containers (no new images)
+- `update`: Pulls new images and recreates containers (gets updates)
+- `destroy`: Removes everything including volumes (fresh start)
+
+---
+
 ### `logs`
 
 View logs from Docker containers.
