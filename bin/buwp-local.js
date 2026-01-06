@@ -24,6 +24,7 @@ const packageJson = JSON.parse(
 import startCommand from '../lib/commands/start.js';
 import stopCommand from '../lib/commands/stop.js';
 import destroyCommand from '../lib/commands/destroy.js';
+import updateCommand from '../lib/commands/update.js';
 import logsCommand from '../lib/commands/logs.js';
 import wpCommand from '../lib/commands/wp.js';
 import shellCommand from '../lib/commands/shell.js';
@@ -59,6 +60,13 @@ program
   .description('Destroy the local WordPress environment (removes volumes)')
   .option('-f, --force', 'Skip confirmation prompt')
   .action(destroyCommand);
+
+// Update command
+program
+  .command('update')
+  .description('Update Docker images and recreate containers')
+  .option('--all', 'Update all service images (default: WordPress only)')
+  .action(updateCommand);
 
 // Logs command
 program
