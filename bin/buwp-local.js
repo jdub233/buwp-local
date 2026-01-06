@@ -88,6 +88,7 @@ program
   .option('--plugin', 'Non-interactive: initialize as plugin')
   .option('--mu-plugin', 'Non-interactive: initialize as mu-plugin')
   .option('--theme', 'Non-interactive: initialize as theme')
+  .option('--sandbox', 'Non-interactive: initialize as sandbox')
   .option('-f, --force', 'Overwrite existing configuration')
   .action(initCommand);
 
