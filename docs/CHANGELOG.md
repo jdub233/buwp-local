@@ -5,6 +5,20 @@ All notable changes to buwp-local will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0]
+
+### Added
+- **`update` command** - Pull latest Docker images and recreate containers without losing data
+  - Pull WordPress image only by default (typical use case)
+  - `--all` flag to update all service images (Redis, S3 proxy, etc.)
+  - Safely applies security updates and WordPress core updates
+  - Data preserved: Database, WordPress files, volume mappings
+
+- **Non-interactive sandbox initialization** - Add `--sandbox` flag to `init` command for scripted setup of sandbox-type projects
+
+### Changed
+- **`init` command** - Now supports `--sandbox` flag for non-interactive initialization
+
 ## [0.6.3]
 
 ### Added
