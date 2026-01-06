@@ -24,6 +24,7 @@ const packageJson = JSON.parse(
 import startCommand from '../lib/commands/start.js';
 import stopCommand from '../lib/commands/stop.js';
 import destroyCommand from '../lib/commands/destroy.js';
+import updateCommand from '../lib/commands/update.js';
 import logsCommand from '../lib/commands/logs.js';
 import wpCommand from '../lib/commands/wp.js';
 import shellCommand from '../lib/commands/shell.js';
@@ -60,6 +61,13 @@ program
   .option('-f, --force', 'Skip confirmation prompt')
   .action(destroyCommand);
 
+// Update command
+program
+  .command('update')
+  .description('Update Docker images and recreate containers')
+  .option('--all', 'Update all service images (default: WordPress only)')
+  .action(updateCommand);
+
 // Logs command
 program
   .command('logs')
@@ -88,6 +96,7 @@ program
   .option('--plugin', 'Non-interactive: initialize as plugin')
   .option('--mu-plugin', 'Non-interactive: initialize as mu-plugin')
   .option('--theme', 'Non-interactive: initialize as theme')
+  .option('--sandbox', 'Non-interactive: initialize as sandbox')
   .option('-f, --force', 'Overwrite existing configuration')
   .action(initCommand);
 
