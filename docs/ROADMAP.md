@@ -222,7 +222,7 @@ Will be informed by feedback from initial small group of users and actual pain p
 
 - **Cross-Platform Support** - Windows WSL2 and Linux credential storage
 - **SSL Certificate Generation** - Local HTTPS with mkcert
-- **Real support for runnning on ports other than 443**
+- **Real support for running on ports other than 443**
 - **Potential GUI from Electron or SwiftUI**
 
 **Note:** Automatic `/etc/hosts` management deferred pending user feedback. See "Lessons Learned" section above for details on the `hostile` library approach.
