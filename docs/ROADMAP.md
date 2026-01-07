@@ -153,7 +153,7 @@ hostile.remove('127.0.0.1', config.hostname);
 **Status:** Ongoing 
 **Focus:** Ease of use and visibility
 
-## Shipped in v0.7.0
+### Shipped in v0.7.0
 - **Docker Image Update Command** 🎯 (Proposed for v0.7.0)
   - **Problem:** Stopping and restarting containers reuses existing images; newer images aren't pulled
   - **Solution:** Add `buwp-local update` command that:
@@ -162,6 +162,9 @@ hostile.remove('127.0.0.1', config.hostname);
     - Preserves volumes (database, WordPress data)
   - **Benefit:** Safe, explicit way to apply WordPress/service updates without `destroy`
   - **Implementation:** Wrapper around `docker-compose pull && docker-compose up -d --force-recreate`
+
+### Shipped in v0.7.1
+- **Documentation Improvements**
 
 ### Potential Features
 
