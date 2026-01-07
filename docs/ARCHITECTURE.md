@@ -383,6 +383,100 @@ npx buwp-local wp user create username user@bu.edu
 
 **Module:** `lib/commands/wp.js`
 
+## Architectural Advantages
+
+### Why Docker + Volume Mappings Over VM Sandboxes
+
+Traditional VM sandbox environments face a fundamental architectural limitation: **WordPress core and developer code share the same filesystem**. This creates a destructive update cycle.
+
+#### The VM Sandbox Problem
+
+```
+┌───────────────────────────────────────┐
+│           VM Filesystem               │
+│                                       │
+│  /var/www/html/                       │
+│    ├── wp-admin/      (WordPress core)│
+│    ├── wp-includes/   (WordPress core)│
+│    └── wp-content/                    │
+│         ├── plugins/                  │
+│         │   └── my-plugin/  ← Your code
+│         └── themes/                   │
+│              └── my-theme/   ← Your code
+│                                       │
+│  ALL IN ONE PLACE = Problem!          │
+└───────────────────────────────────────┘
+
+To update WordPress → Must rebuild entire VM
+Rebuild entire VM → Your code gets overwritten
+```
+
+**Consequences:**
+- Monthly rebuild schedules required
+- Developers must backup code before rebuilds
+- Team-wide coordination overhead
+- All-or-nothing updates (everyone updates together)
+- Risk of losing work if backup/restore fails
+
+#### The buwp-local Solution
+
+Docker's **volume mapping architecture** creates a clean separation:
+
+```
+┌─────────────────────────────────┐
+│    Your Mac's Filesystem        │  ← Developer code lives here
+│                                 │     (permanent, survives updates)
+│  ~/projects/my-plugin/          │
+│    ├── my-plugin.php            │
+│    ├── includes/                │
+│    └── assets/                  │
+└────────────┬────────────────────┘
+             │ Volume mapping (bind mount)
+             ↓
+┌─────────────────────────────────┐
+│      Docker Container           │  ← WordPress core lives here
+│                                 │     (disposable, updates don't affect code)
+│  /var/www/html/                 │
+│    ├── wp-admin/    (from image)│
+│    ├── wp-includes/ (from image)│
+│    └── wp-content/              │
+│         └── plugins/            │
+│              └── my-plugin/ ──┐ │  (mapped from Mac)
+│                               │ │
+│  SEPARATED = No conflicts!    │ │
+└───────────────────────────────┴─┘
+```
+
+**Technical Benefits:**
+
+1. **Persistent Code** - Your code lives on the host filesystem, not in the container. Destroy and recreate containers as much as you want—code never changes.
+
+2. **Independent Updates** - Pull new WordPress images (`docker pull`) without affecting your development code. Update on your schedule, not a team calendar.
+
+3. **Instant Rollback** - Switch between WordPress versions by changing the image tag. Your code stays constant while you test different WordPress versions.
+
+4. **Zero Coordination** - Each developer controls their own environment. No rebuild meetings, no freeze periods, no waiting for others.
+
+5. **Safe Testing** - Test breaking changes in WordPress without risk. If something goes wrong, recreate the container—your code was never in danger.
+
+### Separation of Concerns
+
+This architecture provides clean boundaries:
+
+| Concern | Location | Update Mechanism |
+|---------|----------|------------------|
+| WordPress core | Docker image | `docker pull` |
+| BU plugins | Docker image | `docker pull` |
+| BU theme | Docker image | `docker pull` |
+| **Your plugin** | **Local filesystem** | **Your editor** |
+| **Your theme** | **Local filesystem** | **Your editor** |
+| Database | Docker volume | Persists across updates |
+| Uploads | Docker volume | Persists across updates |
+
+Updates to WordPress never touch your development code. Updates to your code never require rebuilding WordPress.
+
+For detailed migration guidance, see [MIGRATION_FROM_VM.md](MIGRATION_FROM_VM.md).
+
 ## Security Model
 
 ### Credential Security
