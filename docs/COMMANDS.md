@@ -117,7 +117,7 @@ npx buwp-local destroy --force
 
 ### `update`
 
-Update Docker images and recreate containers without losing data.
+Update Docker images and refresh WordPress core files.
 
 ```bash
 npx buwp-local update [options]
@@ -125,33 +125,53 @@ npx buwp-local update [options]
 
 **Options:**
 - `--all` - Update all service images (default: WordPress image only)
+- `--preserve-wpbuild` - Keep existing WordPress volume (prevents core file updates)
 
 **Examples:**
 ```bash
-# Update WordPress image only (recommended)
+# Update WordPress core from new image (recommended)
 npx buwp-local update
 
 # Update all service images (Redis, S3 proxy, etc.)
 npx buwp-local update --all
+
+# Preserve WordPress volume (skip core file refresh)
+npx buwp-local update --preserve-wpbuild
 ```
 
 **What it does:**
 - Checks if environment exists and Docker is running
 - Pulls latest Docker images from registry
-- Recreates containers with new images using `--force-recreate`
+- **Removes wp_build volume** to get fresh WordPress core files (unless `--preserve-wpbuild`)
+- Recreates containers with new images
 - Loads credentials from Keychain and/or `.env.local`
-- **Preserves volumes** - Database and WordPress files untouched
-- Shows success message confirming what was preserved
+- **Always preserves database** (separate volume)
+- **Always preserves custom mapped code** (your local files)
+- **Uploads safe** (stored in S3, not in container)
+
+**What gets updated:**
+- ✅ WordPress core files (wp-admin, wp-includes, core PHP files)
+- ✅ BU plugins and themes bundled in image
+- ✅ PHP/Apache configuration from image
+
+**What's preserved:**
+- ✅ Database content (posts, users, settings) - separate volume
+- ✅ Your custom mapped code - lives on your Mac
+- ✅ Media uploads - stored in S3 bucket
 
 **Use cases:**
-- Pull latest WordPress updates without losing development work
-- Update only WordPress image (typical use case) or all services
-- Safe alternative to `destroy` when you only want to refresh images
+- Get latest WordPress security patches
+- Pull updated BU plugins/themes from new image
+- Test code against newer WordPress version
+- Refresh environment without losing development work
 
-**Key difference from `stop/start`:**
-- `stop` → `start`: Reuses existing containers (no new images)
-- `update`: Pulls new images and recreates containers (gets updates)
-- `destroy`: Removes everything including volumes (fresh start)
+**Key difference from other commands:**
+- `stop` → `start`: Reuses containers and volumes (no updates)
+- `update`: Refreshes WordPress from image, preserves database
+- `destroy`: Removes everything including database (nuclear option)
+
+**Why it's safe:**
+Because buwp-local uses S3 for media uploads (via s3proxy), the WordPress volume contains no user data - only WordPress core and BU infrastructure code. Your custom development code is mapped from your local filesystem and never touched.
 
 ---
 
