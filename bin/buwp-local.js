@@ -66,6 +66,7 @@ program
   .command('update')
   .description('Update Docker images and recreate containers')
   .option('--all', 'Update all service images (default: WordPress only)')
+  .option('--preserve-wpbuild', 'Preserve existing WordPress volume (prevents core file updates)')
   .action(updateCommand);
 
 // Logs command
