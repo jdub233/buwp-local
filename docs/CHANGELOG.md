@@ -5,6 +5,22 @@ All notable changes to buwp-local will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.2]
+
+### Breaking Changes
+- **Volume Naming Fix:** Corrected double-prefixing bug in Docker volume names
+  - Old: `projectname_projectname_wp_build`
+  - New: `projectname_wp_build`
+  - **Migration required:** See [Migration Guide](docs/temp-breaking-0-7-2.md)
+
+### Added
+- `buwp-local update` now properly refreshes WordPress core files from new images
+- `--preserve-wpbuild` flag to opt-out of WordPress volume refresh during updates
+
+### Fixed
+- Volume deletion during update now works correctly (containers released first)
+- Docker Compose auto-prefixing no longer causes duplicated volume names
+
 ## [0.7.1]
 
 Documentation only release.
