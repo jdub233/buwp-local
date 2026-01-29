@@ -174,6 +174,9 @@ hostile.remove('127.0.0.1', config.hostname);
 
 ### Potential Features
 
+- **Ability to add custom WORDPRESS_CONFIG_EXTRA environment variables**
+  - Support for adding custom WP config snippets via env vars
+
 - **Database Security**
   - Check database access on db port (e.g. `localhost:3306`)
   - Consider more stringent default database passwords
