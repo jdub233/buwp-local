@@ -154,17 +154,23 @@ hostile.remove('127.0.0.1', config.hostname);
 **Focus:** Ease of use and visibility
 
 ### Shipped in v0.7.0
-- **Docker Image Update Command** 🎯 (Proposed for v0.7.0)
-  - **Problem:** Stopping and restarting containers reuses existing images; newer images aren't pulled
-  - **Solution:** Add `buwp-local update` command that:
-    - Pulls latest Docker images from registry
-    - Recreates containers with new images
-    - Preserves volumes (database, WordPress data)
-  - **Benefit:** Safe, explicit way to apply WordPress/service updates without `destroy`
-  - **Implementation:** Wrapper around `docker-compose pull && docker-compose up -d --force-recreate`
+- **Docker Image Update Command** ✅
+  - Pull latest Docker images from registry
+  - Recreate containers with new images
+  - Preserve volumes (database, WordPress data)
+  - Safely apply WordPress and service updates without `destroy`
+  - Implementation: Stop containers, conditionally remove wp_build volume, start with new images
 
 ### Shipped in v0.7.1
 - **Documentation Improvements**
+
+### Shipped in v0.7.2
+- **Volume Naming Fix** ✅
+  - Fixed double-prefixing bug in Docker volume names
+  - Old: `projectname_projectname_wp_build` → New: `projectname_wp_build`
+  - Corrected `compose-generator.js` to use simple names (Docker Compose handles prefixing)
+  - Update command now properly releases volume locks before deletion
+  - Added `--preserve-wpbuild` flag for opt-out of WordPress volume refresh
 
 ### Potential Features
 
