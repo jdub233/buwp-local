@@ -5,6 +5,13 @@ All notable changes to buwp-local will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.3]
+
+### Added
+- `watch-jobs` command for automatic processing of site-manager jobs at regular intervals
+- Configurable polling interval with `--interval` flag (default: 60 seconds, minimum: 10 seconds), and through `jobWatchInterval` in configuration file
+- `--quiet` flag to suppress routine output for long-running background use
+
 ## [0.7.2]
 
 ### Breaking Changes
