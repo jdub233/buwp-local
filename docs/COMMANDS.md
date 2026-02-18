@@ -460,7 +460,7 @@ npx buwp-local watch-jobs --interval 20 --quiet
 
 **Configuration:**
 
-Optionally configure default interval in `.buwplocal.json`:
+Optionally configure default interval in `.buwp-local.json`:
 ```json
 {
   "projectName": "my-project",
