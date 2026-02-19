@@ -172,6 +172,42 @@ hostile.remove('127.0.0.1', config.hostname);
   - Update command now properly releases volume locks before deletion
   - Added `--preserve-wpbuild` flag for opt-out of WordPress volume refresh
 
+### Shipped in v0.7.3
+
+- **Job Watcher Command** 🚧
+  - New `watch-jobs` command to periodically run `wp site-manager process-jobs`
+  - Configurable polling interval (default: 5 minutes)
+  - Runs as standalone process in terminal window
+  - Timestamped output for job processing visibility
+  - Graceful shutdown (Ctrl+C)
+  
+  **Problem:** Production environments use cron/AWS EventBridge to automatically process site-manager jobs (content migration, deployments). Local developers currently must manually run `npx buwp-local wp site-manager process-jobs` to see queued jobs complete.
+  
+  **Solution:** Standalone `watch-jobs` command that runs indefinitely, polling for jobs at configurable intervals. Mirrors production behavior without requiring cron setup. Enables developers to use the site-manager web UI for content operations and see jobs complete automatically.
+  
+  **Implementation location:** `lib/commands/watch-jobs.js`
+  
+  **Configuration support:**
+  ```json
+  {
+    "jobWatchInterval": 60  // seconds, default 60 seconds
+  }
+  ```
+  
+  **Command syntax:**
+  ```bash
+  buwp-local watch-jobs [--interval 200] [--quiet]
+  ```
+  
+  **Technical considerations:**
+  - Requires WordPress container to be running
+  - Uses `docker compose exec` to run WP-CLI command
+  - Handles container stop/restart gracefully
+  - Minimal resource usage (sleeps between checks)
+  - Output includes timestamps for audit trail
+  
+  **Future enhancement (v0.8.0+):** If widely adopted, consider adding `--watch-jobs` flag to `start` command for automatic background execution.
+
 ### Potential Features
 
 - **Ability to add custom WORDPRESS_CONFIG_EXTRA environment variables**

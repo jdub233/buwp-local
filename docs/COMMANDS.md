@@ -421,6 +421,82 @@ npx buwp-local keychain clear [--force]
 
 ---
 
+### `watch-jobs`
+
+Watch for and automatically process site-manager jobs at regular intervals.
+
+```bash
+npx buwp-local watch-jobs [options]
+```
+
+**Options:**
+- `--interval <seconds>` - Polling interval in seconds (default: 60, min: 10)
+- `--quiet` - Suppress all routine output (for long-running background use)
+
+**Examples:**
+```bash
+# Watch with default 1 minute interval
+npx buwp-local watch-jobs
+
+# Watch with custom 2 minute interval
+npx buwp-local watch-jobs --interval 120
+
+# Quiet mode (silent operation, check web UI for job status)
+npx buwp-local watch-jobs --quiet
+
+# Quiet mode with short interval for active monitoring
+npx buwp-local watch-jobs --interval 20 --quiet
+```
+
+**What it does:**
+- Runs `wp site-manager process-jobs` inside the WordPress container at configured intervals
+- **Default mode**: Shows timestamped output for all checks and job results
+- **Quiet mode**: Silently processes jobs (check site-manager web UI for status)
+- Continues running until stopped (Ctrl+C)
+- Mirrors production cron/EventBridge behavior locally
+
+**Use cases:**
+- Automatic processing of jobs created via web UI
+
+**Configuration:**
+
+Optionally configure default interval in `.buwp-local.json`:
+```json
+{
+  "projectName": "my-project",
+  "jobWatchInterval": 200
+}
+```
+
+Command-line `--interval` flag overrides config file setting.
+
+**Requirements:**
+- WordPress container must be running (`start` first)
+- Site-manager plugin must be installed and activated
+
+**Quiet mode behavior:**
+- **Startup**: Shows configuration banner
+- **Routine operation**: Completely silent - no output for checks or job processing
+- **Critical errors**: Shows only failures requiring intervention (Docker stopped, environment missing)
+- **Job status**: Check site-manager plugin web UI to see job results and history
+- **Best for**: Long-running background monitoring (hours/days) without terminal noise
+
+**Error handling:**
+- **Default mode**: Shows all errors and warnings with timestamps
+- **Quiet mode**: Silently retries transient errors (container restarts), only shows critical failures
+- Graceful shutdown on SIGINT/SIGTERM
+
+**Tips:**
+- Run in separate terminal window for visibility
+- Use **default mode** during active development to see what's happening
+- Use **quiet mode** for set-it-and-forget-it background monitoring
+- Reduce interval during active testing (e.g., `--interval 60`)
+- Increase interval for background monitoring (e.g., `--interval 600`)
+
+**⚠️ Note:** This is a development tool. Production environments should continue using cron/AWS EventBridge for job processing.
+
+---
+
 ## Global Options
 
 These options work with all commands:

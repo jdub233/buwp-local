@@ -27,6 +27,7 @@ import destroyCommand from '../lib/commands/destroy.js';
 import updateCommand from '../lib/commands/update.js';
 import logsCommand from '../lib/commands/logs.js';
 import wpCommand from '../lib/commands/wp.js';
+import watchJobsCommand from '../lib/commands/watch-jobs.js';
 import shellCommand from '../lib/commands/shell.js';
 import configCommand from '../lib/commands/config.js';
 import initCommand from '../lib/commands/init.js';
@@ -107,6 +108,14 @@ program
   .description('Run WP-CLI commands in the WordPress container')
   .allowUnknownOption()
   .action(wpCommand);
+
+// Watch Jobs command
+program
+  .command('watch-jobs')
+  .description('Watch and automatically process site-manager jobs')
+  .option('--interval <seconds>', `Polling interval in seconds (default: 300, min: 30)`)
+  .option('--quiet', 'Suppress output unless jobs are found')
+  .action(watchJobsCommand);
 
 // Shell command
 program
