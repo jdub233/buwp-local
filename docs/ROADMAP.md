@@ -174,39 +174,49 @@ hostile.remove('127.0.0.1', config.hostname);
 
 ### Shipped in v0.7.3
 
-- **Job Watcher Command** 🚧
+- **Job Watcher Command** ✅
   - New `watch-jobs` command to periodically run `wp site-manager process-jobs`
-  - Configurable polling interval (default: 5 minutes)
+  - Configurable polling interval (default: 60 seconds)
   - Runs as standalone process in terminal window
   - Timestamped output for job processing visibility
+  - True quiet mode for long-running background monitoring
   - Graceful shutdown (Ctrl+C)
   
   **Problem:** Production environments use cron/AWS EventBridge to automatically process site-manager jobs (content migration, deployments). Local developers currently must manually run `npx buwp-local wp site-manager process-jobs` to see queued jobs complete.
   
   **Solution:** Standalone `watch-jobs` command that runs indefinitely, polling for jobs at configurable intervals. Mirrors production behavior without requiring cron setup. Enables developers to use the site-manager web UI for content operations and see jobs complete automatically.
+
+### Shipped in v0.7.4
+
+- **Localhost-Only Port Binding for Database & Redis** 🚧
+  - Bind database (3306) and Redis (6379) ports to 127.0.0.1 only
+  - Prevents network exposure of confidential database content
+  - HTTP/HTTPS remain on all interfaces (0.0.0.0) for device testing
+  - Local database tools (TablePlus, Sequel Pro, etc.) still work perfectly
   
-  **Implementation location:** `lib/commands/watch-jobs.js`
+  **Security Problem:** Default Docker port binding (`3306:3306`) exposes database on all network interfaces (0.0.0.0), including public WiFi. Confidential data accessible to anyone on the network.
   
-  **Configuration support:**
-  ```json
-  {
-    "jobWatchInterval": 60  // seconds, default 60 seconds
-  }
+  **Solution:** Explicit localhost binding (`127.0.0.1:3306:3306`) restricts access to the laptop only. Network isolation provides defense-in-depth beyond password protection.
+  
+  **Implementation:**
+  ```javascript
+  // Database - localhost only (network isolated)
+  ports: [`127.0.0.1:${config.ports.db}:3306`]
+  
+  // Redis - localhost only (session data protected)
+  ports: [`127.0.0.1:${config.ports.redis}:6379`]
+  
+  // HTTP/HTTPS - all interfaces (device testing enabled)
+  ports: [`${config.ports.http}:80`, `${config.ports.https}:443`]
   ```
   
-  **Command syntax:**
-  ```bash
-  buwp-local watch-jobs [--interval 200] [--quiet]
-  ```
+  **Benefits:**
+  - Coffee shop/airport WiFi cannot reach database
+  - Brute-force attacks prevented by network isolation
+  - Zero performance impact
+  - Industry best practice (matching Laravel Sail, wp-env)
   
-  **Technical considerations:**
-  - Requires WordPress container to be running
-  - Uses `docker compose exec` to run WP-CLI command
-  - Handles container stop/restart gracefully
-  - Minimal resource usage (sleeps between checks)
-  - Output includes timestamps for audit trail
-  
-  **Future enhancement (v0.8.0+):** If widely adopted, consider adding `--watch-jobs` flag to `start` command for automatic background execution.
+  **Breaking Change Note:** Existing projects will need `buwp-local update` or restart to apply new port bindings. Database access from phones/tablets/other computers will no longer work (rare use case).
 
 ### Potential Features
 
@@ -217,10 +227,10 @@ hostile.remove('127.0.0.1', config.hostname);
   - Commands to export credentials to JSON file
   - Useful for migrating between machines or sharing setup
 
-- **Database Security**
-  - Check database access on db port (e.g. `localhost:3306`)
-  - Consider more stringent default database passwords
-  - The database can have restricted content in it, so we need to ensure that users are aware of this and take appropriate measures.
+- **Advanced Port Binding Configuration**
+  - Optional config to override localhost-only binding for database/Redis
+  - For advanced users who need network access to services
+  - Example: `"portBindings": { "db": "0.0.0.0", "redis": "127.0.0.1" }`
 
 - **Xdebug Integration**
   - Command to help generate Xdebug configuration for IDEs (VSCode, Zed)
@@ -249,9 +259,6 @@ hostile.remove('127.0.0.1', config.hostname);
   - Docker startup failures → actionable solutions
   - Credential issues → clear next steps
   - Port conflicts → suggest alternatives
-
-- **Multi project experience**
-  - There is a problem when starting a new project when an existing project exists in docker but is stopped. When starting the new project, docker first starts the container for the stopped project for unknown reasons. If the new project uses the same ports, this causes conflicts. Need to investigate and resolve, projects should be isolated and not interfere with each other.
 
 - **Docker Volume management assistant**
   - listing and cleanup of unused volumes
