@@ -188,7 +188,7 @@ hostile.remove('127.0.0.1', config.hostname);
 
 ### Shipped in v0.7.4
 
-- **Localhost-Only Port Binding for Database & Redis** 🚧
+- **Localhost-Only Port Binding for Database & Redis** ✅
   - Bind database (3306) and Redis (6379) ports to 127.0.0.1 only
   - Prevents network exposure of confidential database content
   - HTTP/HTTPS remain on all interfaces (0.0.0.0) for device testing
