@@ -93,6 +93,8 @@ sudo bash -c 'echo "127.0.0.1 username-myproject.local" >> /etc/hosts'
 
 Replace `username-myproject.local` with the hostname you chose in step 4.
 
+The `init` command will also display this command for you to run.
+
 ### 6. Start Your Environment
 
 Start the Docker containers:
