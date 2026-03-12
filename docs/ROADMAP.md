@@ -218,6 +218,12 @@ hostile.remove('127.0.0.1', config.hostname);
   
   **Breaking Change Note:** Existing projects will need `buwp-local update` or restart to apply new port bindings. Database access from phones/tablets/other computers will no longer work (rare use case).
 
+### Shipped in v0.7.5
+- **Init Template updated with WP_ENVIRONMENT_TYPE** ✅
+  - New projects set `WP_ENVIRONMENT_TYPE=local` by default
+  - Provides standardized environment detection for plugins/themes
+  - Can be overridden to simulate staging/production if needed
+
 ### Potential Features
 
 - **Ability to add custom WORDPRESS_CONFIG_EXTRA environment variables**

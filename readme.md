@@ -113,3 +113,4 @@ Your local WordPress site should now be accessible at the hostname you configure
 - ✅ Smart initialization for plugins, themes, and mu-plugins
 - ✅ Volume mapping for live code sync
 - ✅ Xdebug support for step debugging
+- ✅ WordPress environment detection (`WP_ENVIRONMENT_TYPE` set to `local`)
