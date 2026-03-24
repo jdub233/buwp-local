@@ -246,6 +246,10 @@ hostile.remove('127.0.0.1', config.hostname);
   - Commands to export credentials to JSON file
   - Useful for migrating between machines or sharing setup
 
+- **Command to generate a valid super-user**
+  - Add a buwp-local command like `create-super-user` with a prompt that defaults to the current system username that can be used to create a valid WordPress super user tied to the current developer's BU account.
+  - This would be especially helpful for new users who are not familiar with WP CLI or need a quick way to get admin access without manually running WP CLI commands.
+
 - **Advanced Port Binding Configuration**
   - Optional config to override localhost-only binding for database/Redis
   - For advanced users who need network access to services
