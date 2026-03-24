@@ -141,6 +141,7 @@ npx buwp-local update --preserve-wpbuild
 
 **What it does:**
 - Checks if environment exists and Docker is running
+- **Regenerates docker-compose.yml from current `.buwp-local.json` config** (applies config changes)
 - Pulls latest Docker images from registry
 - **Removes wp_build volume** to get fresh WordPress core files (unless `--preserve-wpbuild`)
 - Recreates containers with new images

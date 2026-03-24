@@ -224,6 +224,19 @@ hostile.remove('127.0.0.1', config.hostname);
   - Provides standardized environment detection for plugins/themes
   - Can be overridden to simulate staging/production if needed
 
+### Shipped in v0.7.6
+- **Update Command Config Regeneration** ✅
+  - `update` command now regenerates docker-compose.yml from current `.buwp-local.json` config
+  - Config changes (ports, services, volume mappings, etc.) are now applied during `update`
+  - Fixes bug where config changes were silently ignored, requiring `stop` + `start` to apply
+  - Follows same pattern as `start` command for consistent behavior
+  
+  **Problem:** User edited `.buwp-local.json` config (changed ports from 8080/8443 to 80/443), ran `npx buwp-local update`, but ports stayed at old values. Some settings updated (hostname) while others didn't, causing confusion.
+  
+  **Root Cause:** Update command reused existing docker-compose.yml file instead of regenerating from current config like `start` command does.
+  
+  **Solution:** Added compose file regeneration step to `update` command before pulling images. Now matches `start` command pattern and ensures config changes take effect.
+
 ### Potential Features
 
 - **Ability to add custom WORDPRESS_CONFIG_EXTRA environment variables**
