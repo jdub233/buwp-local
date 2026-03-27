@@ -247,8 +247,9 @@ hostile.remove('127.0.0.1', config.hostname);
   - Useful for migrating between machines or sharing setup
 
 - **Command to generate a valid super-user**
-  - Add a buwp-local command like `create-super-user` with a prompt that defaults to the current system username that can be used to create a valid WordPress super user tied to the current developer's BU account.
+  - Consider adding a buwp-local command like `create-super-user` with a prompt that defaults to the current system username that can be used to create a valid WordPress super user tied to the current developer's BU account.
   - This would be especially helpful for new users who are not familiar with WP CLI or need a quick way to get admin access without manually running WP CLI commands.
+  - One concern is that we don't want the primary command namespace to get too crowded with niche commands, perhaps we could have a "utils" command group for less commonly used commands like this, e.g. `buwp-local utils create-super-user`?
 
 - **Advanced Port Binding Configuration**
   - Optional config to override localhost-only binding for database/Redis
