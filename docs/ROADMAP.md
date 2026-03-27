@@ -224,6 +224,19 @@ hostile.remove('127.0.0.1', config.hostname);
   - Provides standardized environment detection for plugins/themes
   - Can be overridden to simulate staging/production if needed
 
+### Shipped in v0.7.6
+- **Update Command Config Regeneration** ✅
+  - `update` command now regenerates docker-compose.yml from current `.buwp-local.json` config
+  - Config changes (ports, services, volume mappings, etc.) are now applied during `update`
+  - Fixes bug where config changes were silently ignored, requiring `stop` + `start` to apply
+  - Follows same pattern as `start` command for consistent behavior
+  
+  **Problem:** User edited `.buwp-local.json` config (changed ports from 8080/8443 to 80/443), ran `npx buwp-local update`, but ports stayed at old values. Some settings updated (hostname) while others didn't, causing confusion.
+  
+  **Root Cause:** Update command reused existing docker-compose.yml file instead of regenerating from current config like `start` command does.
+  
+  **Solution:** Added compose file regeneration step to `update` command before pulling images. Now matches `start` command pattern and ensures config changes take effect.
+
 ### Potential Features
 
 - **Ability to add custom WORDPRESS_CONFIG_EXTRA environment variables**
@@ -232,6 +245,11 @@ hostile.remove('127.0.0.1', config.hostname);
 - **Credential Export**
   - Commands to export credentials to JSON file
   - Useful for migrating between machines or sharing setup
+
+- **Command to generate a valid super-user**
+  - Consider adding a buwp-local command like `create-super-user` with a prompt that defaults to the current system username that can be used to create a valid WordPress super user tied to the current developer's BU account.
+  - This would be especially helpful for new users who are not familiar with WP CLI or need a quick way to get admin access without manually running WP CLI commands.
+  - One concern is that we don't want the primary command namespace to get too crowded with niche commands, perhaps we could have a "utils" command group for less commonly used commands like this, e.g. `buwp-local utils create-super-user`?
 
 - **Advanced Port Binding Configuration**
   - Optional config to override localhost-only binding for database/Redis

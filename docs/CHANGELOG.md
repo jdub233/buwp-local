@@ -5,6 +5,23 @@ All notable changes to buwp-local will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.6]
+
+### Fixed
+- **`update` command now regenerates docker-compose.yml** - Config changes in `.buwp-local.json` are now applied during `update`, not just during `start`
+- Ports, services, volume mappings, and other config changes now take effect when running `npx buwp-local update`
+- Previously, config changes were silently ignored during update, requiring `stop` + `start` to apply
+
+### Changed
+- `update` command now follows same pattern as `start` command for compose file generation
+- Improved user feedback showing compose file regeneration step
+
+## [0.7.5]
+
+### Added
+- Init template updated with `WP_ENVIRONMENT_TYPE=local` by default
+- Provides standardized environment detection for plugins/themes
+
 ## [0.7.4]
 
 ### Changed
