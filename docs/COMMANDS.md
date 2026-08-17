@@ -83,6 +83,11 @@ npx buwp-local stop
 - Preserves volumes (database and WordPress files remain intact)
 - Cleans up temporary environment files
 
+**Stopped projects stay stopped.** Containers use the `unless-stopped` restart policy, so a project
+you stop here will not start itself again when Docker Desktop restarts or your machine reboots. It
+stays dormant, with its database intact, until you run `start`. See
+[Keeping projects dormant](#keeping-projects-dormant).
+
 ---
 
 ### `destroy`
@@ -564,6 +569,26 @@ cd ~/project-b && npx buwp-local start
 ```
 
 See [Multi-Project Setup](MULTI_PROJECT.md) for details (upcoming).
+
+### Keeping projects dormant
+
+It's often useful to keep several projects around long-term — each one's database holds content
+you'd rather not rebuild — while only running one or two at a time. `stop` is the command for this:
+it leaves volumes untouched, so `start` later brings the project back exactly as you left it.
+Reserve `destroy` for projects whose database you genuinely want gone.
+
+Containers are created with Docker's `unless-stopped` restart policy, which means:
+
+| Situation | On the next Docker Desktop start |
+|---|---|
+| You ran `buwp-local stop` | Stays stopped |
+| Project was still running when Docker quit | Comes back up |
+| A container exited unexpectedly while you were working | Restarts on its own |
+
+The middle row is the one to know about: Docker can't distinguish "I quit Docker Desktop for the
+day" from "the daemon went down unexpectedly," so anything still running when it shuts down is
+brought back. If you want a project to stay quiet, stop it explicitly rather than relying on
+quitting Docker.
 
 ### Debugging
 

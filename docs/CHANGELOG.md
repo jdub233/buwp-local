@@ -5,6 +5,28 @@ All notable changes to buwp-local will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.7]
+
+### Changed
+- **Generated containers use the `unless-stopped` restart policy instead of `always`** - A project stopped with `npx buwp-local stop` now stays stopped when the Docker daemon restarts, instead of starting itself again
+- Makes it practical to keep several projects on hand and run only the ones in use — each keeps its database while dormant, without consuming resources
+- Containers that exit unexpectedly mid-session still restart on their own
+- A project left running when Docker Desktop quits is still restored on the next daemon start; Docker does not distinguish that from an unexpected shutdown
+- See [Keeping projects dormant](COMMANDS.md#keeping-projects-dormant) for the behavior in each shutdown case
+
+### Upgrading
+
+Containers built by earlier versions keep the `always` policy they were created with. They adopt the new policy the next time you run `start` or `update` on that project, which recreates its containers — databases are unaffected, since `db_data` is a named volume that survives recreation.
+
+To change containers already on your machine without recreating them:
+
+```bash
+docker ps -aq | xargs docker update --restart=unless-stopped
+docker stop $(docker ps -q)
+```
+
+The second line is not optional. Updating a restart policy makes Docker re-evaluate it, which starts every container that was sitting exited — the first line on its own will boot every project you have. Stopping them again returns them to dormant and sets the manually-stopped flag that `unless-stopped` reads. Neither command touches volumes.
+
 ## [0.7.6]
 
 ### Fixed
