@@ -5,6 +5,33 @@ All notable changes to buwp-local will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.7]
+
+### Changed
+- **Generated containers use the `unless-stopped` restart policy instead of `always`** - A project stopped with `npx buwp-local stop` now stays stopped when the Docker daemon restarts, instead of starting itself again
+- Makes it practical to keep several projects on hand and run only the ones in use — each keeps its database while dormant, without consuming resources
+- Containers that exit unexpectedly mid-session still restart on their own
+- A project left running when Docker Desktop quits is still restored on the next daemon start; Docker does not distinguish that from an unexpected shutdown
+- See [Keeping projects dormant](COMMANDS.md#keeping-projects-dormant) for the behavior in each shutdown case
+
+### Upgrading
+
+Containers built by earlier versions keep the `always` policy they were created with. They adopt the new policy the next time you run `start` or `update` on that project, which recreates its containers — databases are unaffected, since `db_data` is a named volume that survives recreation.
+
+To change containers already on your machine without recreating them:
+
+```bash
+# WARNING: affects all Docker containers on this machine (not just buwp-local)
+all_containers=$(docker ps -aq)
+if [ -n "$all_containers" ]; then echo "$all_containers" | xargs docker update --restart=unless-stopped; fi
+running_containers=$(docker ps -q)
+if [ -n "$running_containers" ]; then echo "$running_containers" | xargs docker stop; fi
+```
+
+Run the `docker stop` even if nothing looks like it is running. Updating a restart policy makes Docker re-evaluate it, which can start containers that were sitting exited — whether it does depends on how they were stopped in the first place. The `docker stop` returns anything that came up to dormant and sets the manually-stopped flag that `unless-stopped` reads. Neither command touches volumes.
+
+To limit this to one project, swap `docker ps -aq` for `docker ps -aq --filter "label=com.docker.compose.project=<projectName>"` and run it once per project.
+
 ## [0.7.6]
 
 ### Fixed

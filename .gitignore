@@ -25,3 +25,6 @@ Thumbs.db
 # Test
 coverage/
 .nyc_output/
+
+# Local files not ready for commit
+staging/*
