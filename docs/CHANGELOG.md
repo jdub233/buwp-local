@@ -21,8 +21,11 @@ Containers built by earlier versions keep the `always` policy they were created 
 To change containers already on your machine without recreating them:
 
 ```bash
-docker ps -aq | xargs docker update --restart=unless-stopped
-docker stop $(docker ps -q)
+# WARNING: affects all Docker containers on this machine (not just buwp-local)
+all_containers=$(docker ps -aq)
+if [ -n "$all_containers" ]; then docker update --restart=unless-stopped $all_containers; fi
+running_containers=$(docker ps -q)
+if [ -n "$running_containers" ]; then docker stop $running_containers; fi
 ```
 
 The second line is not optional. Updating a restart policy makes Docker re-evaluate it, which starts every container that was sitting exited — the first line on its own will boot every project you have. Stopping them again returns them to dormant and sets the manually-stopped flag that `unless-stopped` reads. Neither command touches volumes.
