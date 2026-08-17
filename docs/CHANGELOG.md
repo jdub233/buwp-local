@@ -28,7 +28,9 @@ running_containers=$(docker ps -q)
 if [ -n "$running_containers" ]; then docker stop $running_containers; fi
 ```
 
-The second line is not optional. Updating a restart policy makes Docker re-evaluate it, which starts every container that was sitting exited — the first line on its own will boot every project you have. Stopping them again returns them to dormant and sets the manually-stopped flag that `unless-stopped` reads. Neither command touches volumes.
+The `docker stop` is not optional. Updating a restart policy makes Docker re-evaluate it, which starts every container that was sitting exited — the `docker update` on its own will boot every project you have. Stopping them again returns them to dormant and sets the manually-stopped flag that `unless-stopped` reads. Neither command touches volumes.
+
+To limit this to one project, swap `docker ps -aq` for `docker ps -aq --filter "label=com.docker.compose.project=<projectName>"` and run it once per project.
 
 ## [0.7.6]
 
