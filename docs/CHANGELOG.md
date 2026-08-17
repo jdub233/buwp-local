@@ -23,12 +23,12 @@ To change containers already on your machine without recreating them:
 ```bash
 # WARNING: affects all Docker containers on this machine (not just buwp-local)
 all_containers=$(docker ps -aq)
-if [ -n "$all_containers" ]; then docker update --restart=unless-stopped $all_containers; fi
+if [ -n "$all_containers" ]; then echo "$all_containers" | xargs docker update --restart=unless-stopped; fi
 running_containers=$(docker ps -q)
-if [ -n "$running_containers" ]; then docker stop $running_containers; fi
+if [ -n "$running_containers" ]; then echo "$running_containers" | xargs docker stop; fi
 ```
 
-The `docker stop` is not optional. Updating a restart policy makes Docker re-evaluate it, which starts every container that was sitting exited — the `docker update` on its own will boot every project you have. Stopping them again returns them to dormant and sets the manually-stopped flag that `unless-stopped` reads. Neither command touches volumes.
+Run the `docker stop` even if nothing looks like it is running. Updating a restart policy makes Docker re-evaluate it, which can start containers that were sitting exited — whether it does depends on how they were stopped in the first place. The `docker stop` returns anything that came up to dormant and sets the manually-stopped flag that `unless-stopped` reads. Neither command touches volumes.
 
 To limit this to one project, swap `docker ps -aq` for `docker ps -aq --filter "label=com.docker.compose.project=<projectName>"` and run it once per project.
 
